@@ -9,17 +9,10 @@ const URL = "http://localhost:3000/ramens";
 const imgDiv = document.getElementById('ramen-menu');
 const imgDisplay = document.querySelector('.detail-image');
 const nameDisplay = document.querySelector('.name');
+const commentDisplay = document.getElementById('comment-display')
+const ratingDisplay = document.getElementById('rating-display')
 const restaurantDisplay = document.querySelector('.restaurant');
 const form = document.getElementById('new-ramen');
-const newName = document.getElementById('new-');
-const newRestaurant = document.getElementById('new-restaurant');
-const newImg = document.getElementById('new-image');
-const newRating = document.getElementById('new-image');
-const newComment = document.getElementById('new-comment');
-
-
-
-
 
 function fetchImgs(url) {
     fetch(url)
@@ -29,11 +22,11 @@ function fetchImgs(url) {
 
 function render(ramenData) {
     ramenData.forEach((ramen) => {
-        addRamenToDom(ramen.image, ramen.name, ramen.restaurant);
+        addRamenToDom(ramen.image, ramen.name, ramen.restaurant, ramen.rating, ramen.comment);
     })
 };
 
-function addRamenToDom(image, name, restaurant) {
+function addRamenToDom(image, name, restaurant, rating, comment) {
     const img = document.createElement('img');
     img.src = image;
     imgDiv.appendChild(img);
@@ -41,19 +34,36 @@ function addRamenToDom(image, name, restaurant) {
         imgDisplay.src = e.target.src;
         nameDisplay.innerText = name;
         restaurantDisplay.innerText = restaurant;
+        ratingDisplay.innerText = rating;
+        commentDisplay.innerText = comment;
     });
-    // console.log(imgDiv)
 }
 
 function addEventToForm() {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        console.log(e);
-        newName.textContent = e.target[0].value;
-        newRestaurant.textContent = e.target[1].value;
+
+        const newImg = document.createElement('img');
+        const newName = document.createElement('h2');
+        const newRestaurant = document.createElement('h3');
+        const newRating = document.createElement('h3');
+        const newComment = document.createElement('h3');
+
+
+        newName.innerText = e.target[0].value;
+        newRestaurant.innerText = e.target[1].value;
         newImg.src = e.target[2].value;
-        newRating.textContent = e.target[3].value;
-        newComment.textContent = e.target[4].value;
-        console.log(newName, newRestaurant, newImg, newRating, newComment);
+        newRating.innerText = e.target[3].value;
+        newComment.innerText = e.target[4].value;
+
+        let myName = newName.innerText = e.target[0].value;
+        let myRest = newRestaurant.innerText = e.target[1].value;
+        let myImg = newImg.src = e.target[2].value;
+        let myRating = newRating.innerText = e.target[3].value;
+        let myComment = newComment.innerText = e.target[4].value;
+
+        ramenDiv.appendChild(newImg);
+      
+        addRamenToDom(myImg, myName, myRest, myRating, myComment);
     })
 }
